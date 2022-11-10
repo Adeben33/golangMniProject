@@ -95,3 +95,24 @@ func Login(c *gin.Context) {
 	c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
 	c.JSON(200, gin.H{})
 }
+
+func Logout(c *gin.Context) {
+	_, err := c.Cookie("Authorization")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "user not logged in",
+		})
+	}
+	c.SetCookie("Authorization", "", -1, "", "", false, true)
+	c.JSON(200, gin.H{
+		"info": "logout successful",
+	})
+}
+
+func Validate(c *gin.Context) {
+	user, _ := c.Get("user")
+	c.JSON(200, gin.H{
+		"user":  user,
+		"Hello": "Hello",
+	})
+}
