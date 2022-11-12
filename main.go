@@ -22,7 +22,7 @@ func main() {
 	authorized.Use(middleware.Userauthoraization)
 	{
 		//	//Get all todo
-		authorized.GET("/getTodo", controllers.GetTodo)
+		authorized.GET("/getTodo", controllers.GetAllTodo)
 		//
 		//	//Get a todo by id
 		authorized.GET("/getTodo/:id", controllers.GetTodoById)
@@ -31,8 +31,10 @@ func main() {
 		authorized.POST("/createTodo", controllers.CreateTodo)
 		//
 		//	//Delete a todo by id
-		//	authorized.DELETE()
+		//	authorized.DELETE("/delete/:id")
 		//
+		//Delete all todo
+		//authorized.DELETE("/delete")
 	}
 	r.GET("/validate", middleware.Userauthoraization, controllers.Validate)
 	r.Run()

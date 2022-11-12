@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func GetTodo(c *gin.Context) {
+func GetAllTodo(c *gin.Context) {
 	var todo []models.Todo
 	uniqueUser := c.MustGet("user")
 	allTodo := initializers.DB.Model("models.Todo{}").Preload("Model.User").Where("todo.UserID <> ?", uniqueUser.(models.User).ID).Find(&todo)
@@ -40,6 +40,28 @@ func CreateTodo(c *gin.Context) {
 	c.JSON(200, newTodo)
 }
 
-func () {
-	
+func DeleteAllTodo(c *gin.Context) {
+	uniqueUser := c.MustGet("user")
+	var todo models.Todo
+	_ = initializers.DB.Model("models.Todo{}").Preload("Model.User").Where("todo.UserID <> ?", uniqueUser.(models.User).ID).Delete(&todo)
+	c.JSON(200, gin.H{
+		"Deleted": "Successfully",
+	})
+}
+
+func DeleteToDoById(c *gin.Context) {
+	uniqueUser := c.MustGet("user")
+	id := c.Param("id")
+	var todo models.Todo
+	_ = initializers.DB.Model("models.Todo{}").Preload("Model.User").
+		Where("todo.UserID <> ?", uniqueUser.(models.User).ID).
+		Where("todoID = ?", id).
+		Delete(&todo)
+	c.JSON(200, gin.H{
+		"Deleted": "Successfully",
+	})
+}
+
+func UpdateToDoById(c *gin.Context) {
+
 }
