@@ -19,19 +19,27 @@ func GetTodoById(c *gin.Context) {
 	uniqueUser := c.MustGet("user")
 	idTodo := initializers.DB.Model("models.Todo{}").
 		Preload("Model.User").Where("todo.UserID <> ?", uniqueUser.(models.User).ID).
+		Where("todo.Id = ?", id).
 		Find(&todo)
 	//idTodo := initializers.DB.Find(&todo, id)
 	c.JSON(200, idTodo)
 }
 
 func CreateTodo(c *gin.Context) {
-	type newTodo struct {
-		content string
-	}
-	todo := c.bind(&newTodo{})
-	user, err := c.Get("user")
-	if err != nil {
-		log.Fatal("Cant get the user")
-	}
+	var incomingTodo string
 
+	err := c.Bind(&incomingTodo)
+	if err != nil {
+		log.Fatal("Cannot bind the todo")
+	}
+	var newTodo models.Todo
+	uniqueUser := c.MustGet("user")
+	newTodo.UserID = uniqueUser.(models.User).ID
+	newTodo.Todo = incomingTodo
+	initializers.DB.Model("models.Todo{}").Create(&newTodo)
+	c.JSON(200, newTodo)
+}
+
+func () {
+	
 }

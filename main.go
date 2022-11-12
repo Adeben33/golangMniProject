@@ -27,8 +27,8 @@ func main() {
 		//	//Get a todo by id
 		authorized.GET("/getTodo/:id", controllers.GetTodoById)
 		//
-		//	//Insert a todo
-		//	authorized.POST()
+		//	//Create a todo
+		authorized.POST("/createTodo", controllers.CreateTodo)
 		//
 		//	//Delete a todo by id
 		//	authorized.DELETE()

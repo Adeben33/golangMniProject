@@ -10,6 +10,6 @@ type User struct {
 
 type Todo struct {
 	gorm.Model
-	todo   string `json:"todo"`
-	UserID int
+	Todo   string `json:"todo"`
+	UserID uint
 }
